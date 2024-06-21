@@ -7,21 +7,144 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
         }
-        header, footer {
-            background-color: #f8f9fa;
-            padding: 10px;
+        header {
+            background-color: #007bff;
+            color: white;
+            padding: 20px 0;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         main {
-            margin: 20px 0;
+            margin: 20px;
         }
         .content {
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        h2 {
+            color: #007bff;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            background-color: #007bff;
+            color: white;
+            margin: 5px 0;
             padding: 10px;
-            background-color: #e9ecef;
+            border-radius: 4px;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            background-color: #f8f9fa;
+            color: #666;
+            padding: 10px 0;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+        .slider {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+        }
+        .slider-buttons {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+        .slider-button {
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
         }
     </style>
+    <script>
+        let currentSlide = 0;
+        
+        function showSlide(index) {
+            const slides = document.querySelector('.slides');
+            const totalSlides = document.querySelectorAll('.slide').length;
+            if (index >= totalSlides) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = totalSlides - 1;
+            } else {
+                currentSlide = index;
+            }
+            slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function showAlert() {
+            alert("Це спливаюче повідомлення!");
+        }
+
+        function handleSubmit(event) {
+            event.preventDefault();
+            alert("Форма відправлена!");
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.prev').addEventListener('click', () => showSlide(currentSlide - 1));
+            document.querySelector('.next').addEventListener('click', () => showSlide(currentSlide + 1));
+        });
+    </script>
 </head>
 <body>
     <header>
@@ -30,7 +153,8 @@
     <main>
         <section class="content">
             <h2>Про мене</h2>
-            <p>Мене звати Андрій. Я веб-розробник з України. Я люблю створювати веб-сайти та веб-додатки.</p>
+            <p>Мене звати Іван. Я веб-розробник з України. Я люблю створювати веб-сайти та веб-додатки.</p>
+            <button onclick="showAlert()">Натисни мене</button>
         </section>
         <section class="content">
             <h2>Мої навички</h2>
@@ -43,11 +167,49 @@
         </section>
         <section class="content">
             <h2>Контакти</h2>
-            <p>Ви можете зв'язатися зі мною за електронною поштою: <a href="mailto:andrewlviv1990@gmail.com">andrewlviv1990@mail.com</a></p>
+            <p>Ви можете зв'язатися зі мною за електронною поштою: <a href="mailto:ivan@example.com">ivan@example.com</a></p>
+        </section>
+        <section class="content">
+            <h2>Зворотній зв'язок</h2>
+            <form onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="name">Ім'я</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Електронна пошта</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Повідомлення</label>
+                    <textarea id="message" name="message" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit">Відправити</button>
+                </div>
+            </form>
+        </section>
+        <section class="content">
+            <h2>Слайдер зображень</h2>
+            <div class="slider">
+                <div class="slides">
+                    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide+1" alt="Slide 1"></div>
+                    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide+2" alt="Slide 2"></div>
+                    <div class="slide"><img src="https://via.placeholder.com/800x400?text=Slide+3" alt="Slide 3"></div>
+                </div>
+                <div class="slider-buttons">
+                    <button class="slider-button prev">❮</button>
+                    <button class="slider-button next">❯</button>
+                </div>
+            </div>
+        </section>
+        <section class="content">
+            <h2>Джазове відео</h2>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/YXKJTwjxwl0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </section>
     </main>
     <footer>
-        <p>&copy; 2024 Андрій. Всі права захищені.</p>
+        <p>&copy; 2024 Іван. Всі права захищені.</p>
     </footer>
 </body>
 </html>
